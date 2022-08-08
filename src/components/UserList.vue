@@ -20,10 +20,13 @@
         </template>
       </el-table-column>
       <el-table-column label="操作">
-        <template>
+        <!-- v-slot:default = "scope"可以简写为两种形式：
+（1）#default = "scope"
+（2）v-slot = "scope" -->
+        <template v-slot:default="{ row }">
           <div>
-            <a href="#">详情</a>&nbsp;
-            <a href="#" @click.prevent="onRemove">删除</a>
+            <router-link :to="'/users/' + row.id">详情</router-link>&nbsp;
+            <a href="#" @click.prevent="onRemove(row.id)">删除</a>
           </div>
         </template>
       </el-table-column>
@@ -154,7 +157,7 @@ export default {
       })
     },
     // 用户点击了删除链接
-    async onRemove() {
+    async onRemove(id) {
       // 点击取消后会在console中报错，为了取消报错，使用.catch把错误也return出去，交给confirmResult接收
       const confirmResult = await this.$confirm(
         '此操作将永久删除该用户, 是否继续?',
@@ -167,7 +170,11 @@ export default {
       ).catch((err) => err)
       // console.log(confirmResult)
       if (confirmResult !== 'confirm') return this.$message.info('取消了删除！')
+      const { data: res } = await this.$http.delete('/api/users/' + id)
+      if (res.status !== 0) return this.$message.error('删除失败！')
       this.$message.success('删除成功！')
+      // 删除成功后立即刷新列表
+      this.getUserList()
     }
   }
 }
