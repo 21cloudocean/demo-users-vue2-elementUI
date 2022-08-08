@@ -23,7 +23,7 @@
         <template>
           <div>
             <a href="#">详情</a>&nbsp;
-            <a href="#">删除</a>
+            <a href="#" @click.prevent="onRemove">删除</a>
           </div>
         </template>
       </el-table-column>
@@ -144,13 +144,30 @@ export default {
         // 需要执行添加的业务处理
         const { data: res } = await this.$http.post('/api/users', this.form)
         // console.log(res)
-        if (res.status !== 0) return console.log('添加失败！')
-        console.log('添加成功')
+        if (res.status !== 0) return this.$message.error('添加用户失败！')
+        // console.log('添加成功')
+        this.$message.success('添加成功！')
         // 添加成功后关闭对话框
         this.dialogVisible = false
         // 添加成功后立即刷新列表
         this.getUserList()
       })
+    },
+    // 用户点击了删除链接
+    async onRemove() {
+      // 点击取消后会在console中报错，为了取消报错，使用.catch把错误也return出去，交给confirmResult接收
+      const confirmResult = await this.$confirm(
+        '此操作将永久删除该用户, 是否继续?',
+        '提示',
+        {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }
+      ).catch((err) => err)
+      // console.log(confirmResult)
+      if (confirmResult !== 'confirm') return this.$message.info('取消了删除！')
+      this.$message.success('删除成功！')
     }
   }
 }
