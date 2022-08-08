@@ -30,8 +30,24 @@
     </el-table>
     <!-- 添加用户的对话框 -->
     <!-- 写在哪儿都行，对话框不在workflow里 -->
-    <el-dialog title="提示" :visible.sync="dialogVisible" width="50%">
-      <span>这是一段信息</span>
+    <el-dialog title="添加新用户" :visible.sync="dialogVisible" width="50%">
+      <!-- 添加用户的表单 -->
+      <el-form :model="form">
+        <!-- 采集用户姓名 -->
+        <el-form-item label="用户姓名" label-width="80px">
+          <el-input v-model="form.name" autocomplete="off"></el-input>
+        </el-form-item>
+
+        <!-- 采集用户年龄 -->
+        <el-form-item label="用户年龄" label-width="80px">
+          <el-input v-model="form.age" autocomplete="off"></el-input>
+        </el-form-item>
+
+        <!-- 采集用户头衔 -->
+        <el-form-item label="用户头衔" label-width="80px">
+          <el-input v-model="form.position" autocomplete="off"></el-input>
+        </el-form-item>
+      </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="dialogVisible = false"
@@ -50,7 +66,13 @@ export default {
       // 用户列表数据，默认为空数组
       userList: [],
       // 控制对话框的显示与隐藏
-      dialogVisible: false
+      dialogVisible: false,
+      // 要采集的用户的信息对象
+      form: {
+        name: '',
+        age: '',
+        position: ''
+      }
     }
   },
   created() {
