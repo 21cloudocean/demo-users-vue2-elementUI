@@ -40,7 +40,7 @@
 
         <!-- 采集用户年龄 -->
         <el-form-item label="用户年龄" prop="age">
-          <el-input v-model="form.age" autocomplete="off"></el-input>
+          <el-input v-model.number="form.age" autocomplete="off"></el-input>
         </el-form-item>
 
         <!-- 采集用户头衔 -->
@@ -62,6 +62,16 @@
 export default {
   name: 'UserList',
   data() {
+    // 声明校验年龄的函数，注意是在return的外面
+    let checkAge = (rule, value, cb) => {
+      if (!Number.isInteger(value)) {
+        return cb(new Error('请填写整数！'))
+      }
+      if (value > 100 || value < 1) {
+        return cb(new Error('年龄必须在1到100之间'))
+      }
+      cb()
+    }
     return {
       // 用户列表数据，默认为空数组
       userList: [],
@@ -84,7 +94,10 @@ export default {
             trigger: 'blur'
           }
         ],
-        age: [{ required: true, message: '年龄是必填项', trigger: 'blur' }],
+        age: [
+          { required: true, message: '年龄是必填项', trigger: 'blur' },
+          { validator: checkAge, trigger: 'blur' }
+        ],
         position: [
           { required: true, message: '头衔是必填项', trigger: 'blur' },
           {
