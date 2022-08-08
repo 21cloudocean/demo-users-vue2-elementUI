@@ -1,5 +1,9 @@
 <template>
   <div>
+    <!-- 添加新用户的按钮 -->
+    <el-button type="primary" @click="dialogVisible = true"
+      >添加新用户</el-button
+    >
     <!-- 用户的表格 -->
     <el-table :data="userList" stripe border>
       <!-- 每列信息 -->
@@ -10,6 +14,7 @@
       <el-table-column label="头衔" prop="position"> </el-table-column>
       <el-table-column label="创建时间">
         <!-- element UI 自定义列模板 -->
+        <!-- 注意：官网的slot-scoped是旧写法，我们写v-slot:default="scope" -->
         <template v-slot:default="scope">
           {{ scope.row.addtime | dateFormat }}
         </template>
@@ -23,6 +28,17 @@
         </template>
       </el-table-column>
     </el-table>
+    <!-- 添加用户的对话框 -->
+    <!-- 写在哪儿都行，对话框不在workflow里 -->
+    <el-dialog title="提示" :visible.sync="dialogVisible" width="50%">
+      <span>这是一段信息</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false"
+          >确 定</el-button
+        >
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -32,7 +48,9 @@ export default {
   data() {
     return {
       // 用户列表数据，默认为空数组
-      userList: []
+      userList: [],
+      // 控制对话框的显示与隐藏
+      dialogVisible: false
     }
   },
   created() {
@@ -52,4 +70,8 @@ export default {
 }
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.el-table {
+  margin-top: 15px;
+}
+</style>
