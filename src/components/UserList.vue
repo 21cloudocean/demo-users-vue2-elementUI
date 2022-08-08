@@ -8,7 +8,20 @@
       <el-table-column label="姓名" prop="name"> </el-table-column>
       <el-table-column label="年龄" prop="age"> </el-table-column>
       <el-table-column label="头衔" prop="position"> </el-table-column>
-      <el-table-column label="创建时间" prop="addtime"> </el-table-column>
+      <el-table-column label="创建时间">
+        <!-- element UI 自定义列模板 -->
+        <template v-slot:default="scope">
+          {{ scope.row.addtime | dateFormat }}
+        </template>
+      </el-table-column>
+      <el-table-column label="操作">
+        <template>
+          <div>
+            <a href="#">详情</a>&nbsp;
+            <a href="#">删除</a>
+          </div>
+        </template>
+      </el-table-column>
     </el-table>
   </div>
 </template>
