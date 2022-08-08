@@ -30,9 +30,19 @@
     </el-table>
     <!-- 添加用户的对话框 -->
     <!-- 写在哪儿都行，对话框不在workflow里 -->
-    <el-dialog title="添加新用户" :visible.sync="dialogVisible" width="50%">
+    <el-dialog
+      title="添加新用户"
+      :visible.sync="dialogVisible"
+      width="50%"
+      @close="onDialogClosed"
+    >
       <!-- 添加用户的表单 -->
-      <el-form :model="form" label-width="80px" :rules="formRules">
+      <el-form
+        :model="form"
+        label-width="80px"
+        :rules="formRules"
+        ref="myaddForm"
+      >
         <!-- 采集用户姓名 -->
         <el-form-item label="用户姓名" prop="name">
           <el-input v-model="form.name" autocomplete="off"></el-input>
@@ -122,6 +132,10 @@ export default {
       if (res.status !== 0) return console.log('用户列表数据请求失败！')
       console.log(res.data)
       this.userList = res.data
+    },
+    // 监听对话框关闭的事件
+    onDialogClosed() {
+      this.$refs.myaddForm.resetFields()
     }
   }
 }
