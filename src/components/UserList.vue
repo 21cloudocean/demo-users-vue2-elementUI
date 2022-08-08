@@ -137,11 +137,19 @@ export default {
     },
     // 用户点击了确定按钮
     onAddNewUser() {
-      this.$refs.myaddForm.validate((valid) => {
+      this.$refs.myaddForm.validate(async (valid) => {
         // console.log(valid)
         //valid是个布尔值
         if (!valid) return
         // 需要执行添加的业务处理
+        const { data: res } = await this.$http.post('/api/users', this.form)
+        // console.log(res)
+        if (res.status !== 0) return console.log('添加失败！')
+        console.log('添加成功')
+        // 添加成功后关闭对话框
+        this.dialogVisible = false
+        // 添加成功后立即刷新列表
+        this.getUserList()
       })
     }
   }
