@@ -32,19 +32,19 @@
     <!-- 写在哪儿都行，对话框不在workflow里 -->
     <el-dialog title="添加新用户" :visible.sync="dialogVisible" width="50%">
       <!-- 添加用户的表单 -->
-      <el-form :model="form">
+      <el-form :model="form" label-width="80px" :rules="formRules">
         <!-- 采集用户姓名 -->
-        <el-form-item label="用户姓名" label-width="80px">
+        <el-form-item label="用户姓名" prop="name">
           <el-input v-model="form.name" autocomplete="off"></el-input>
         </el-form-item>
 
         <!-- 采集用户年龄 -->
-        <el-form-item label="用户年龄" label-width="80px">
+        <el-form-item label="用户年龄" prop="age">
           <el-input v-model="form.age" autocomplete="off"></el-input>
         </el-form-item>
 
         <!-- 采集用户头衔 -->
-        <el-form-item label="用户头衔" label-width="80px">
+        <el-form-item label="用户头衔" prop="position">
           <el-input v-model="form.position" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
@@ -72,6 +72,28 @@ export default {
         name: '',
         age: '',
         position: ''
+      },
+      // 表单的验证规则对象
+      formRules: {
+        name: [
+          { required: true, message: '姓名是必填项', trigger: 'blur' },
+          {
+            min: 1,
+            max: 15,
+            message: '长度在 1 到 15 个字符',
+            trigger: 'blur'
+          }
+        ],
+        age: [{ required: true, message: '年龄是必填项', trigger: 'blur' }],
+        position: [
+          { required: true, message: '头衔是必填项', trigger: 'blur' },
+          {
+            min: 1,
+            max: 10,
+            message: '长度在 1 到 10 个字符',
+            trigger: 'blur'
+          }
+        ]
       }
     }
   },
