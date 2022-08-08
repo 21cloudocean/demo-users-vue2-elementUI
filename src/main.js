@@ -9,7 +9,8 @@ import axios from 'axios'
 Vue.config.productionTip = false
 
 // 全局配置 axios
-axios.defaults.baseURL = 'https://www.escook.cn'
+// axios.defaults.baseURL = 'https://www.escook.cn'
+axios.defaults.baseURL = 'http://localhost:3000'
 Vue.prototype.$http = axios
 
 new Vue({
