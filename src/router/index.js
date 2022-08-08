@@ -14,7 +14,7 @@ const router = new VueRouter({
     { path: '/', redirect: '/users' },
     // 用户列表的路由规则
     { path: '/users', component: UserList },
-    { path: '/users/:id', component: UserDetail }
+    { path: '/users/:id', component: UserDetail, props: true }
   ]
 })
 // 向外共享路由实例对象
