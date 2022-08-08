@@ -60,9 +60,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false"
-          >确 定</el-button
-        >
+        <el-button type="primary" @click="onAddNewUser">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -136,6 +134,15 @@ export default {
     // 监听对话框关闭的事件
     onDialogClosed() {
       this.$refs.myaddForm.resetFields()
+    },
+    // 用户点击了确定按钮
+    onAddNewUser() {
+      this.$refs.myaddForm.validate((valid) => {
+        // console.log(valid)
+        //valid是个布尔值
+        if (!valid) return
+        // 需要执行添加的业务处理
+      })
     }
   }
 }
